@@ -1,61 +1,54 @@
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.JSONObject;
+import org.apache.http.util.EntityUtils;
+
 public class main{
-public String putDataToServer(String url,JSONObject returnedJObject) throws Throwable
-{
-    HttpPost request = new HttpPost(url);
-    JSONStringer json = new JSONStringer();
-    StringBuilder sb=new StringBuilder();
+private static String sendJson(String json){
 
 
-    if (returnedJObject!=null) 
-    {
-        Iterator<String> itKeys = returnedJObject.keys();
-        if(itKeys.hasNext())
-            json.object();
-        while (itKeys.hasNext()) 
-        {
-            String k=itKeys.next();
-            json.key(k).value(returnedJObject.get(k));
-            Log.e("keys "+k,"value "+returnedJObject.get(k).toString());
-        }             
-    }
-    json.endObject();
+String result="";
+		    HttpClient httpClient = new DefaultHttpClient();
 
+		    try {
+		        HttpPost request = new HttpPost("http://partygoer.org/test1.php");
+		        StringEntity params =new StringEntity("message=" + json);
+		        request.addHeader("content-type", "application/x-www-form-urlencoded");
+		        request.setEntity(params);
+		        HttpResponse response = httpClient.execute(request);
 
-    StringEntity entity = new StringEntity(json.toString());
-                         entity.setContentType("application/json;charset=UTF-8");
-    entity.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE,"application/json;charset=UTF-8"));
-    request.setHeader("Accept", "application/json");
-    request.setEntity(entity); 
+		        // handle response here...
 
-    HttpResponse response =null;
-    DefaultHttpClient httpClient = new DefaultHttpClient();
+		        HttpEntity entity = response.getEntity(); 
+		        InputStream is = entity.getContent(); 
+		        BufferedReader in = new BufferedReader(new InputStreamReader(is));
+		      
+		        StringBuffer buffer = new StringBuffer();
+		        int read;
+		        char[] chars = new char[1024];
+		        while ((read = in.read(chars)) != -1)
+		            buffer.append(chars, 0, read); 
 
-    HttpConnectionParams.setSoTimeout(httpClient.getParams(), Constants.ANDROID_CONNECTION_TIMEOUT*1000); 
-    HttpConnectionParams.setConnectionTimeout(httpClient.getParams(),Constants.ANDROID_CONNECTION_TIMEOUT*1000); 
-    try{
-        response = httpClient.execute(request); 
-    }
-    catch(SocketException se)
-    {
-        Log.e("SocketException", se+"");
-        throw se;
-    }
-    InputStream in = response.getEntity().getContent();
-    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-    String line = null;
-    while((line = reader.readLine()) != null){
-        sb.append(line);
-    }
-    return sb.toString();
+		        result =  buffer.toString();
+		    } catch (Exception ex) {
+		        // handle exception here
+		    } finally {
+		        httpClient.getConnectionManager().shutdown();
+		    }
+			return result;
 }
 private static String readUrl(String urlString) throws Exception {
         BufferedReader reader = null;
@@ -77,7 +70,12 @@ private static String readUrl(String urlString) throws Exception {
     }
     public static void main(String[] args) throws Exception {
      String json = readUrl("http://partygoer.org/test.php");
+     JSONObject obj1 = new JSONObject();
+     obj1.put("powitanie", "siema");
+     System.out.println("powitanie 1: "+sendJson(obj1.toString()));
      JSONObject obj = new JSONObject(json);
+    
+     
 		System.out.println("powitanie: " + obj.getString("powitanie"));
     }
 }

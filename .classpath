@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/wodzu/Documents/hackathon/java-json.jar"/>
+	<classpathentry kind="lib" path="/home/wodzu/Documents/hackathon/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="/home/wodzu/Documents/hackathon/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="/home/wodzu/Documents/hackathon/fluent-hc-4.5.2.jar"/>
+	<classpathentry kind="lib" path="/home/wodzu/Documents/hackathon/httpclient-4.5.2.jar"/>
+	<classpathentry kind="lib" path="/home/wodzu/Documents/hackathon/httpclient-cache-4.5.2.jar"/>
+	<classpathentry kind="lib" path="/home/wodzu/Documents/hackathon/httpclient-win-4.5.2.jar"/>
+	<classpathentry kind="lib" path="/home/wodzu/Documents/hackathon/httpcore-4.4.4.jar"/>
+	<classpathentry kind="lib" path="/home/wodzu/Documents/hackathon/httpmime-4.5.2.jar"/>
+	<classpathentry kind="lib" path="/home/wodzu/Documents/hackathon/jna-4.1.0.jar"/>
+	<classpathentry kind="lib" path="/home/wodzu/Documents/hackathon/jna-platform-4.1.0.jar"/>
+	<classpathentry kind="output" path=""/>
+</classpath>
