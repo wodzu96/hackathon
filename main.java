@@ -17,14 +17,14 @@ import org.json.JSONObject;
 import org.apache.http.util.EntityUtils;
 
 public class main{
-private static String sendJson(String json){
+private static String sendJson(String json, String url){
 
 
 String result="";
 		    HttpClient httpClient = new DefaultHttpClient();
 
 		    try {
-		        HttpPost request = new HttpPost("http://partygoer.org/test1.php");
+		        HttpPost request = new HttpPost(url);
 		        StringEntity params =new StringEntity("message=" + json);
 		        request.addHeader("content-type", "application/x-www-form-urlencoded");
 		        request.setEntity(params);
@@ -72,7 +72,7 @@ private static String readUrl(String urlString) throws Exception {
      String json = readUrl("http://partygoer.org/test.php");
      JSONObject obj1 = new JSONObject();
      obj1.put("powitanie", "siema");
-     System.out.println("powitanie 1: "+sendJson(obj1.toString()));
+     System.out.println("powitanie 1: "+sendJson(obj1.toString(), "http://partygoer.org/test1.php"));
      JSONObject obj = new JSONObject(json);
     
      
